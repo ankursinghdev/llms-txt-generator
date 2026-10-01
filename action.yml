@@ -1,0 +1,53 @@
+name: 'llms.txt generator'
+description: 'Generate an llms.txt (and optional llms-full.txt) for your website from its XML sitemap.'
+author: 'ankursinghdev'
+branding:
+  icon: 'file-text'
+  color: 'purple'
+
+inputs:
+  site:
+    description: 'Website root, e.g. https://www.example.com'
+    required: true
+  out:
+    description: 'Output path for llms.txt'
+    required: false
+    default: 'llms.txt'
+  full:
+    description: 'Optional output path for llms-full.txt (leave empty to skip)'
+    required: false
+    default: ''
+  order:
+    description: 'Comma-separated section order, e.g. "services,case-studies,blog"'
+    required: false
+    default: ''
+  exclude:
+    description: 'Regular expression of URLs to skip'
+    required: false
+    default: ''
+  max-pages:
+    description: 'Maximum pages to fetch'
+    required: false
+    default: '500'
+
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+    - shell: bash
+      env:
+        IN_SITE: ${{ inputs.site }}
+        IN_OUT: ${{ inputs.out }}
+        IN_FULL: ${{ inputs.full }}
+        IN_ORDER: ${{ inputs.order }}
+        IN_EXCLUDE: ${{ inputs.exclude }}
+        IN_MAX: ${{ inputs.max-pages }}
+      run: |
+        set -euo pipefail
+        args=(--site "$IN_SITE" --out "$IN_OUT" --max-pages "$IN_MAX")
+        [ -n "$IN_FULL" ] && args+=(--full "$IN_FULL")
+        [ -n "$IN_ORDER" ] && args+=(--order "$IN_ORDER")
+        [ -n "$IN_EXCLUDE" ] && args+=(--exclude "$IN_EXCLUDE")
+        node "$GITHUB_ACTION_PATH/index.mjs" "${args[@]}"

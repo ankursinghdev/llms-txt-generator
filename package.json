@@ -1,0 +1,14 @@
+{
+  "name": "llms-txt-generator",
+  "version": "1.0.0",
+  "description": "Generate an llms.txt (and llms-full.txt) for any website from its XML sitemap. Zero dependencies.",
+  "type": "module",
+  "bin": { "llms-txt-generator": "index.mjs" },
+  "engines": { "node": ">=18" },
+  "scripts": { "test": "node test/test.mjs" },
+  "keywords": ["llms.txt", "llms-full.txt", "seo", "geo", "ai-seo", "sitemap", "ai-visibility", "github-action"],
+  "author": "Ankur (https://github.com/ankursinghdev)",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/ankursinghdev/llms-txt-generator" },
+  "homepage": "https://github.com/ankursinghdev/llms-txt-generator#readme"
+}
